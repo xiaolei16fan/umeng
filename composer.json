@@ -1,0 +1,24 @@
+{
+    "name": "xiaolei16fan/umeng",
+    "description": "umeng push package in namespace version.",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^6.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Larry Chen",
+            "email": "ranwuer@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "UmengPush\\": "src/"
+        }
+    }
+}
