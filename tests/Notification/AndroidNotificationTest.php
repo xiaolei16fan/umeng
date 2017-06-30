@@ -3,6 +3,7 @@
 namespace Notification;
 
 use \PHPUnit\Framework\TestCase;
+use UmengPush\Android\AndroidBroadcast;
 use UmengPush\Android\AndroidGroupcast;
 use UmengPush\Android\AndroidUnicast;
 
@@ -12,6 +13,10 @@ class AndroidNotificationTest extends TestCase
     protected $appMasterSecret = null;
     protected $timestamp = null;
     protected $validation_token = null;
+    /**
+     * @var bool 是否开启生产模式，false表示测试模式，true表示生产模式
+     */
+    protected $productionMode = false;
 
     /**
      * 测试初始化
@@ -49,7 +54,7 @@ class AndroidNotificationTest extends TestCase
         $unicast->setPredefinedKeyValue("display_type", "notification");
         // Set 'production_mode' to 'false' if it's a test device.
         // For how to register a test device, please see the developer doc.
-        $unicast->setPredefinedKeyValue("production_mode", "false");
+        $unicast->setPredefinedKeyValue("production_mode", $this->productionMode);
 
         // Set extra fields
         $unicast->setExtraField("test", "helloworld");
@@ -89,8 +94,27 @@ class AndroidNotificationTest extends TestCase
         $groupcast->setPredefinedKeyValue("after_open", "go_app");
         // Set 'production_mode' to 'false' if it's a test device.
         // For how to register a test device, please see the developer doc.
-        $groupcast->setPredefinedKeyValue("production_mode", "false");
+        $groupcast->setPredefinedKeyValue("production_mode", $this->productionMode);
         $result = json_decode($groupcast->send(), true);
+        $this->assertEquals('SUCCESS', $result['ret']);
+    }
+
+    public function testBroadCast()
+    {
+        $brocast = new AndroidBroadcast();
+        $brocast->setAppMasterSecret($this->appMasterSecret);
+        $brocast->setPredefinedKeyValue("appkey", $this->appkey);
+        $brocast->setPredefinedKeyValue("timestamp", $this->timestamp);
+        $brocast->setPredefinedKeyValue("ticker", "Android broadcast ticker");
+        $brocast->setPredefinedKeyValue("title", "中文的title");
+        $brocast->setPredefinedKeyValue("text", "Android broadcast text");
+        $brocast->setPredefinedKeyValue("after_open", "go_app");
+        // Set 'production_mode' to 'false' if it's a test device.
+        // For how to register a test device, please see the developer doc.
+        $brocast->setPredefinedKeyValue("production_mode", $this->productionMode);
+        // [optional]Set extra fields
+        $brocast->setExtraField("test", "helloworld");
+        $result = json_decode($brocast->send(), true);
         $this->assertEquals('SUCCESS', $result['ret']);
     }
 }

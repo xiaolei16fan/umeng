@@ -3,6 +3,7 @@
 namespace Notification;
 
 use \PHPUnit\Framework\TestCase;
+use UmengPush\Ios\IOSBroadcast;
 use UmengPush\Ios\IOSGroupcast;
 use \UmengPush\Ios\IOSUnicast;
 
@@ -12,6 +13,10 @@ class IOSNotificationTest extends TestCase
     protected $appMasterSecret = null;
     protected $timestamp = null;
     protected $validation_token = null;
+    /**
+     * @var bool 是否开启生产模式，false表示测试模式，true表示生产模式
+     */
+    protected $productionMode = false;
 
     /**
      * 测试初始化
@@ -46,7 +51,7 @@ class IOSNotificationTest extends TestCase
         $unicast->setPredefinedKeyValue("sound", "chime");
         $unicast->setPredefinedKeyValue("expire_time", "2017-07-02 14:01:59");
         // Set 'production_mode' to 'true' if your app is under production mode
-        $unicast->setPredefinedKeyValue("production_mode", "false");
+        $unicast->setPredefinedKeyValue("production_mode", $this->productionMode);
         $unicast->setPredefinedKeyValue("description", "IOS 单播测试");
 
         // Set customized fields
@@ -85,8 +90,26 @@ class IOSNotificationTest extends TestCase
         $groupcast->setPredefinedKeyValue("badge", 0);
         $groupcast->setPredefinedKeyValue("sound", "default");
         // Set 'production_mode' to 'true' if your app is under production mode
-        $groupcast->setPredefinedKeyValue("production_mode", "false");
+        $groupcast->setPredefinedKeyValue("production_mode", $this->productionMode);
         $result = json_decode($groupcast->send(), true);
+        $this->assertEquals('SUCCESS', $result['ret']);
+    }
+
+    public function testBroadcast()
+    {
+        $brocast = new IOSBroadcast();
+        $brocast->setAppMasterSecret($this->appMasterSecret);
+        $brocast->setPredefinedKeyValue("appkey", $this->appkey);
+        $brocast->setPredefinedKeyValue("timestamp", $this->timestamp);
+
+        $brocast->setPredefinedKeyValue("alert", "IOS 广播测试");
+        $brocast->setPredefinedKeyValue("badge", 0);
+        $brocast->setPredefinedKeyValue("sound", "default");
+        // Set 'production_mode' to 'true' if your app is under production mode
+        $brocast->setPredefinedKeyValue("production_mode", $this->productionMode);
+        // Set customized fields
+        $brocast->setCustomizedField("test", "helloworld");
+        $result = json_decode($brocast->send(), true);
         $this->assertEquals('SUCCESS', $result['ret']);
     }
 }
