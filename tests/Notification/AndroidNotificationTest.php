@@ -101,20 +101,20 @@ class AndroidNotificationTest extends TestCase
 
     public function testBroadCast()
     {
-        $brocast = new AndroidBroadcast();
-        $brocast->setAppMasterSecret($this->appMasterSecret);
-        $brocast->setPredefinedKeyValue("appkey", $this->appkey);
-        $brocast->setPredefinedKeyValue("timestamp", $this->timestamp);
-        $brocast->setPredefinedKeyValue("ticker", "Android broadcast ticker");
-        $brocast->setPredefinedKeyValue("title", "中文的title");
-        $brocast->setPredefinedKeyValue("text", "Android broadcast text");
-        $brocast->setPredefinedKeyValue("after_open", "go_app");
+        $broadcast = new AndroidBroadcast();
+        $broadcast->setAppMasterSecret($this->appMasterSecret);
+        $broadcast->setPredefinedKeyValue("appkey", $this->appkey);
+        $broadcast->setPredefinedKeyValue("timestamp", $this->timestamp);
+        $broadcast->setPredefinedKeyValue("ticker", "Android broadcast ticker");
+        $broadcast->setPredefinedKeyValue("title", "中文的title");
+        $broadcast->setPredefinedKeyValue("text", "Android broadcast text");
+        $broadcast->setPredefinedKeyValue("after_open", "go_app");
         // Set 'production_mode' to 'false' if it's a test device.
         // For how to register a test device, please see the developer doc.
-        $brocast->setPredefinedKeyValue("production_mode", $this->productionMode);
+        $broadcast->setPredefinedKeyValue("production_mode", $this->productionMode);
         // [optional]Set extra fields
-        $brocast->setExtraField("test", "helloworld");
-        $result = json_decode($brocast->send(), true);
+        $broadcast->setExtraField("test", "helloworld");
+        $result = json_decode($broadcast->send(), true);
         $this->assertEquals('SUCCESS', $result['ret']);
     }
 }
