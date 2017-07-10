@@ -2,7 +2,7 @@
 
 namespace Notification;
 
-use \PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 use UmengPush\Android\AndroidBroadcast;
 use UmengPush\Android\AndroidGroupcast;
 use UmengPush\Android\AndroidUnicast;
@@ -16,7 +16,7 @@ class AndroidNotificationTest extends TestCase
     /**
      * @var bool 是否开启生产模式，false表示测试模式，true表示生产模式
      */
-    protected $productionMode = false;
+    protected $productionMode = "false";
 
     /**
      * 测试初始化

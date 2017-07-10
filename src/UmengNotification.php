@@ -29,7 +29,7 @@ abstract class UmengNotification
         //"file_id"        => "xx",
         //"filter"         => "xx",
         //"policy"         => array("start_time" => "xx", "expire_time" => "xx", "max_send_num" => "xx"),
-        "production_mode" => "true",
+        "production_mode" => "false",
         //"feedback"       => "xx",
         //"description"    => "xx",
         //"thirdparty_id"  => "xx"
@@ -103,7 +103,9 @@ abstract class UmengNotification
             // We did send the notifition out and got a non-200 response
             throw new \Exception("Http code:" . $httpCode . " details:" . $result . "\r\n");
         } else {
-            return $result;
+            $result = json_decode($result, true);
+            $result['data']['json'] = $postBody;
+            return json_encode($result);
         }
     }
 
