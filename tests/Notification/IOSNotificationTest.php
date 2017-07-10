@@ -14,9 +14,9 @@ class IOSNotificationTest extends TestCase
     protected $timestamp = null;
     protected $validation_token = null;
     /**
-     * @var bool 是否开启生产模式，false表示测试模式，true表示生产模式
+     * @var string 是否开启生产模式，false表示测试模式，true表示生产模式
      */
-    protected $productionMode = false;
+    protected $productionMode = "false";
 
     /**
      * 测试初始化
