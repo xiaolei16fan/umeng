@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use UmengPush\Android\AndroidBroadcast;
 use UmengPush\Android\AndroidGroupcast;
 use UmengPush\Android\AndroidUnicast;
+use UmengPush\MessageCancel;
 
 class AndroidNotificationTest extends TestCase
 {
@@ -109,6 +110,10 @@ class AndroidNotificationTest extends TestCase
         $broadcast->setPredefinedKeyValue("title", "中文的title");
         $broadcast->setPredefinedKeyValue("text", "Android broadcast text");
         $broadcast->setPredefinedKeyValue("after_open", "go_app");
+        $broadcast->setPredefinedKeyValue("start_time", '2017-09-14 09:55:21');
+        $broadcast->setPredefinedKeyValue("expire_time", '2017-09-15 09:31:21');
+        $broadcast->setPredefinedKeyValue("description", '安卓测试');
+
         // Set 'production_mode' to 'false' if it's a test device.
         // For how to register a test device, please see the developer doc.
         $broadcast->setPredefinedKeyValue("production_mode", $this->productionMode);
@@ -116,5 +121,18 @@ class AndroidNotificationTest extends TestCase
         $broadcast->setExtraField("test", "helloworld");
         $result = json_decode($broadcast->send(), true);
         $this->assertEquals('SUCCESS', $result['ret']);
+    }
+
+    public function testCancel()
+    {
+        $taskId = '';
+        $timeStamp = time();
+        $cancelMsg = new MessageCancel();
+        $cancelMsg->setAppMasterSecret($this->appMasterSecret);
+        $cancelMsg->setPredefinedKeyValue('appkey', $this->appkey);
+        $cancelMsg->setPredefinedKeyValue('timestamp', $timeStamp);
+        $cancelMsg->setPredefinedKeyValue('task_id', $taskId);
+
+        return $cancelMsg->send();
     }
 }
