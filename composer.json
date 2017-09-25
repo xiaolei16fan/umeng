@@ -1,5 +1,5 @@
 {
-    "name": "xiaolei16fan/umeng",
+    "name": "messagepush/umeng",
     "description": "umeng push package in namespace version.",
     "type": "library",
     "require-dev": {
